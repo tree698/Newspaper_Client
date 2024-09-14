@@ -1,0 +1,69 @@
+import React from 'react';
+
+const today = new Date();
+
+// 날짜 포맷팅 (YYYYMMDD 형식으로 변환)
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+const day = String(today.getDate()).padStart(2, '0');
+
+// 'YYYYMMDD' 형식으로 날짜를 조합
+const todayFormatted = `${year}${month}${day}`;
+
+// 각 신문사 이름과 해당 웹사이트 주소를 매핑
+const names = [
+  { name: '조선', url: 'https://media.naver.com/press/023/newspaper' },
+  { name: '중앙', url: 'https://media.naver.com/press/025/newspaper' },
+  { name: '동아', url: 'https://media.naver.com/press/020/newspaper' },
+  { name: '한국', url: 'https://media.naver.com/press/469/newspaper' },
+  { name: '경향', url: 'https://media.naver.com/press/032/newspaper' },
+  { name: '국민', url: 'https://media.naver.com/press/005/newspaper' },
+  { name: '한경', url: 'https://media.naver.com/press/015/newspaper' },
+  { name: '매경', url: 'https://media.naver.com/press/009/newspaper' },
+  { name: '서울', url: 'https://media.naver.com/press/081/newspaper' },
+  {
+    name: 'nyt',
+    url: 'https://www.nytimes.com/section/todayspaper?redirect_uri=https%3A%2F%2Fwww.nytimes.com%2Finternational%2F',
+  },
+  { name: 'wp', url: 'https://www.washingtonpost.com/todays_paper/updates/' },
+  { name: 'ft', url: 'https://www.ft.com/' },
+  {
+    name: 'wsj',
+    url: `https://www.wsj.com/print-edition/${todayFormatted}/frontpage`,
+  },
+  {
+    name: 'am',
+    url: `https://www.asahi.com/shimen/${todayFormatted}/?iref=pc_gnavi`,
+  },
+  {
+    name: 'an',
+    url: `https://www.asahi.com/shimen/${todayFormatted}ev/?iref=pc_gnavi`,
+  },
+];
+
+export default function Sidebar({ open, onToggle }) {
+  return (
+    <div
+      className='fixed left-0 top-0 h-full bg-gray-800 text-white z-10 transition-all duration-300 ease-in-out overflow-y-auto overflow-x-hidden'
+      style={{ width: open ? '90px' : '50px' }}
+    >
+      <button className='text-white m-4 text-2xl' onClick={onToggle}>
+        &#9776; {/* 햄버거 버튼 */}
+      </button>
+
+      {open && (
+        <div className='flex flex-col items-start p-2 mt-4'>
+          {names.map(({ name, url }) => (
+            <button
+              key={name}
+              className='mb-2 p-2 bg-blue-500 rounded hover:bg-blue-700 w-full text-left'
+              onClick={() => window.open(url, '_target')}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
