@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import NewsBox from './NewsBox';
-import { FaArrowUp } from 'react-icons/fa';
 
 export default function ShowNews({ newsData, onSelectNews }) {
   const containerRef = useRef(null);
@@ -15,22 +14,16 @@ export default function ShowNews({ newsData, onSelectNews }) {
     if (newsRefs.current[article.id]) {
       newsRefs.current[article.id].scrollIntoView({
         behavior: 'smooth',
-        block: 'center',
+        block: 'center', // 요소를 화면 중앙에 위치
       });
     }
   };
 
-  const scrollToTop = useCallback(() => {
-    if (containerRef.current && newsData.length > 0) {
-      const firstNewsId = newsData[0].id;
-      if (newsRefs.current[firstNewsId]) {
-        newsRefs.current[firstNewsId].scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
-      }
+  const scrollToTop = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [newsData]);
+  };
 
   // ref 할당을 useCallback으로 처리
   const setNewsRef = useCallback((el, id) => {
@@ -39,17 +32,17 @@ export default function ShowNews({ newsData, onSelectNews }) {
     }
   }, []);
 
-  // 컴포넌트가 마운트되면 스크롤을 최상단으로 이동
   useEffect(() => {
+    // 데이터가 처음 로드될 때 상단으로 스크롤
     if (newsData.length > 0) {
       scrollToTop();
     }
-  }, [newsData, scrollToTop]);
+  }, [newsData]);
 
   return (
     <div
       ref={containerRef}
-      className='flex flex-col items-center gap-4 p-4 relative h-full overflow-y-auto'
+      className='flex flex-col p-4 items-center gap-4 relative h-full overflow-y-auto'
     >
       {newsData.length === 0 ? (
         <p>해당 뉴스가 없습니다.</p>
@@ -68,11 +61,12 @@ export default function ShowNews({ newsData, onSelectNews }) {
           </div>
         ))
       )}
+
       <button
         onClick={scrollToTop}
-        className='fixed bottom-4 left-12 bg-green-700 hover:bg-green-400 text-white font-bold p-2 rounded-full transition-all duration-300 ease-in-out hover:scale-105'
+        className='fixed bottom-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'
       >
-        <FaArrowUp />
+        ↑
       </button>
     </div>
   );

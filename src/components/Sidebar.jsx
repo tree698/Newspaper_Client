@@ -43,27 +43,18 @@ const names = [
 
 export default function Sidebar({ open, onToggle }) {
   return (
-    <div
-      className='fixed left-0 top-0 h-full bg-gray-800 text-white z-10 transition-all duration-300 ease-in-out overflow-y-auto overflow-x-hidden'
-      style={{ width: open ? '90px' : '50px' }}
-    >
-      <button className='text-white m-4 text-2xl' onClick={onToggle}>
-        &#9776; {/* 햄버거 버튼 */}
-      </button>
-
-      {open && (
-        <div className='flex flex-col items-start p-2 mt-4'>
-          {names.map(({ name, url }) => (
-            <button
-              key={name}
-              className='mb-2 p-2 bg-blue-500 rounded hover:bg-blue-700 w-full text-left'
-              onClick={() => window.open(url, '_target')}
-            >
-              {name}
-            </button>
-          ))}
-        </div>
-      )}
+    <div className='h-full text-xs text-slate-600 transition-all duration-300 ease-in-out bg-white'>
+      <div className='flex flex-col p-2 w-16'>
+        {names.map(({ name, url }) => (
+          <button
+            key={name}
+            className='mb-1 p-2 bg-slate-200 rounded hover:bg-slate-500 hover:text-slate-200 w-full'
+            onClick={() => window.open(url, '_blank')}
+          >
+            {name}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

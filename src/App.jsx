@@ -86,22 +86,28 @@ export default function App() {
   };
 
   return (
-    <div className='flex flex-row'>
-      <div>
-        <Sidebar
-          open={sidebarOpen}
-          onToggle={() => setSidebarOpen(!sidebarOpen)}
-        />
-      </div>
-      <div className='w-full pl-24 border-2'>
+    <div className='flex flex-col h-screen'>
+      <div className='fixed top-0 left-0 right-0 z-10 bg-slate-100'>
         <Netbar onApiRequest={handleApiRequest} />
-        {loading && <p>로딩 중...</p>}
-        <News
-          newsData={newsData}
-          onSelectNews={setSelectedNews}
-          selectedNews={selectedNews}
-          onBack={handleBack}
-        />
+      </div>
+      <div className='flex flex-1 pt-48'>
+        <div className='w-16 flex-shrink-0'>
+          <div className='fixed h-full'>
+            <Sidebar
+              open={sidebarOpen}
+              onToggle={() => setSidebarOpen(!sidebarOpen)}
+            />
+          </div>
+        </div>
+        <div className='flex-1 h-100vh'>
+          {loading && <p className='text-center'>로딩 중...</p>}
+          <News
+            newsData={newsData}
+            onSelectNews={setSelectedNews}
+            selectedNews={selectedNews}
+            onBack={handleBack}
+          />
+        </div>
       </div>
     </div>
   );

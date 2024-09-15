@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/news';
+const API_BASE_URL = process.env.REACT_APP_BASE_URL;
 
-// Axios 인스턴스 생성 (공통 설정 가능)
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
