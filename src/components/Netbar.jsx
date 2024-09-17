@@ -43,7 +43,7 @@ export default function Netbar({ onApiRequest }) {
   }, []);
 
   const renderInput = (value, setter, placeholder, type = 'text', onKeyUp) => (
-    <div className='relative w-40'>
+    <div className='relative w-44'>
       <input
         className='border border-gray-300 bg-slate-100 px-4 py-2 rounded w-full outline-none pr-8'
         type={type}
@@ -64,7 +64,7 @@ export default function Netbar({ onApiRequest }) {
   );
 
   return (
-    <div className='w-full flex flex-col items-center my-8'>
+    <div className='w-full flex flex-col items-center my-3'>
       <div className='w-full flex justify-center mb-4 gap-2'>
         <button
           className='border border-gray-300 px-4 py-2 rounded bg-emerald-200 w-40 hover:bg-slate-200 transition-all duration-300 ease-in-out hover:scale-105'

@@ -90,7 +90,7 @@ export default function App() {
       <div className='fixed top-0 left-0 right-0 z-10 bg-slate-100'>
         <Netbar onApiRequest={handleApiRequest} />
       </div>
-      <div className='flex flex-1 pt-48'>
+      <div className='flex flex-1 pt-32'>
         <div className='w-16 flex-shrink-0'>
           <div className='fixed h-full'>
             <Sidebar

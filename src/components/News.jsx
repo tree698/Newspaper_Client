@@ -10,7 +10,7 @@ export default function News({ newsData, onSelectNews, selectedNews, onBack }) {
       </div>
       {selectedNews && (
         <div className='w-1/2 h-full'>
-          <div className='sticky top-40'>
+          <div className='sticky top-32'>
             <DetailedNews news={selectedNews} onBack={onBack} />
           </div>
         </div>

@@ -1,36 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   updateArticleSummary,
   updateArticleKeyword,
   updateArticleMemo,
-  updateArticleMark,
-  updateArticleRanking,
+  updateArticleClassification,
+  updateArticleExpection,
+  fetchArticleDetailsById,
 } from '../service/newsApi';
 
 export default function DetailedNews({ news, onBack }) {
-  const [summary, setSummary] = useState(news.summary);
-  const [keyword, setKeyword] = useState(news.keyword);
-  const [memo, setMemo] = useState(news.memo);
-  const [mark, setMark] = useState(news.mark);
-  const [ranking, setRanking] = useState(news.ranking);
+  const [details, setDetails] = useState({
+    summary: '',
+    keyword: '',
+    classification: '',
+    background: '',
+    memo: '',
+  });
+
+  useEffect(() => {
+    if (news && news.id) {
+      fetchArticleDetailsById(news.id)
+        .then((data) => {
+          setDetails({
+            summary: data.summary || '',
+            keyword: data.keyword || '',
+            classification: data.classification || '',
+            background: data.background || '',
+            memo: data.memo || '',
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching article details:', error);
+        });
+    }
+  }, [news]);
+
+  const handleInputChange = (field, value) => {
+    setDetails((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleUpdate = async (type) => {
     try {
       switch (type) {
         case 'summary':
-          await updateArticleSummary(news.id, summary);
+          await updateArticleSummary(news.id, details.summary);
           break;
         case 'keyword':
-          await updateArticleKeyword(news.id, keyword);
+          await updateArticleKeyword(news.id, details.keyword);
           break;
         case 'memo':
-          await updateArticleMemo(news.id, memo);
+          await updateArticleMemo(news.id, details.memo);
           break;
-        case 'mark':
-          await updateArticleMark(news.id, mark);
+        case 'classification':
+          await updateArticleClassification(news.id, details.classification);
           break;
-        case 'ranking':
-          await updateArticleRanking(news.id, ranking);
+        case 'background':
+          await updateArticleExpection(news.id, details.background);
           break;
         default:
           break;
@@ -41,44 +66,42 @@ export default function DetailedNews({ news, onBack }) {
     }
   };
 
-  // 날짜를 연도-월-일 형식으로 변환하는 함수
-  const formatDate = (dateString) => {
-    return dateString.split('T')[0]; // 'YYYY-MM-DD'만 추출
-  };
-
   return (
-    <div className='py-4 pl-4 pr-16 w-full'>
+    <div className='py-4 p-4 w-full'>
       <button
         onClick={onBack}
         className='mb-4 text-blue-500 hover:text-blue-700'
       >
         &larr; 돌아가기
       </button>
-      <h3 className='text-lg font-bold mb-2'>{news.title}</h3>
-      <div className='mb-1'>
-        <div className='flex items-center justify-between'>
-          <label className='font-semibold'>요약:</label>
+      <h3 className='text-lg font-bold mb-2 truncate overflow-hidden whitespace-nowrap'>
+        {news.title}
+      </h3>
+
+      <div className='mb-3'>
+        <div className='flex items-center'>
+          <label className='text-red-400 font-bold mr-2'>✓ 요약:</label>
           <button
             onClick={() => handleUpdate('summary')}
-            className='bg-orange-300 text-white text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-300 transition-all duration-300 ease-in-out'
+            className='bg-slate-100 text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-200 transition-all duration-300 ease-in-out'
           >
             수정
           </button>
         </div>
         <textarea
           className='border p-2 w-full rounded outline-none mt-1'
-          value={summary}
-          onChange={(e) => setSummary(e.target.value)}
+          value={details.summary}
+          onChange={(e) => handleInputChange('summary', e.target.value)}
           rows={3}
         />
       </div>
 
-      <div className='mb-1'>
-        <div className='flex items-center justify-between'>
-          <label className='font-semibold'>키워드:</label>
+      <div className='mb-3'>
+        <div className='flex items-center'>
+          <label className='text-red-400 font-bold mr-2'>✓ 키워드:</label>
           <button
             onClick={() => handleUpdate('keyword')}
-            className='bg-orange-300 text-white text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-300 transition-all duration-300 ease-in-out'
+            className='bg-slate-100 text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-200 transition-all duration-300 ease-in-out'
           >
             수정
           </button>
@@ -86,17 +109,17 @@ export default function DetailedNews({ news, onBack }) {
         <input
           className='border p-2 w-full rounded outline-none mt-1'
           type='text'
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
+          value={details.keyword}
+          onChange={(e) => handleInputChange('keyword', e.target.value)}
         />
       </div>
 
-      <div className='mb-1'>
-        <div className='flex items-center justify-between'>
-          <label className='font-semibold'>마크:</label>
+      <div className='mb-3'>
+        <div className='flex items-center'>
+          <label className='text-red-400 font-bold mr-2'>✓ 분류:</label>
           <button
-            onClick={() => handleUpdate('mark')}
-            className='bg-orange-300 text-white text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-300 transition-all duration-300 ease-in-out'
+            onClick={() => handleUpdate('classification')}
+            className='bg-slate-100 text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-200 transition-all duration-300 ease-in-out'
           >
             수정
           </button>
@@ -104,43 +127,43 @@ export default function DetailedNews({ news, onBack }) {
         <input
           className='border p-2 w-full rounded outline-none mt-1'
           type='text'
-          value={mark}
-          onChange={(e) => setMark(e.target.value)}
+          value={details.classification}
+          onChange={(e) => handleInputChange('classification', e.target.value)}
         />
       </div>
 
-      <div className='mb-1'>
-        <div className='flex items-center justify-between'>
-          <label className='font-semibold'>랭킹:</label>
+      <div className='mb-3'>
+        <div className='flex items-center'>
+          <label className='text-red-400 font-bold mr-2'>✓ 배경:</label>
           <button
-            onClick={() => handleUpdate('ranking')}
-            className='bg-orange-300 text-white text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-300 transition-all duration-300 ease-in-out'
-          >
-            수정
-          </button>
-        </div>
-        <input
-          className='border p-2 w-full rounded outline-none mt-1'
-          type='number'
-          value={ranking}
-          onChange={(e) => setRanking(e.target.value)}
-        />
-      </div>
-
-      <div className='mb-1'>
-        <div className='flex items-center justify-between'>
-          <label className='font-semibold'>메모:</label>
-          <button
-            onClick={() => handleUpdate('memo')}
-            className='bg-orange-300 text-white text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-300 transition-all duration-300 ease-in-out'
+            onClick={() => handleUpdate('background')}
+            className='bg-slate-100 text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-200 transition-all duration-300 ease-in-out'
           >
             수정
           </button>
         </div>
         <textarea
           className='border p-2 w-full rounded outline-none mt-1'
-          value={memo}
-          onChange={(e) => setMemo(e.target.value)}
+          value={details.background}
+          onChange={(e) => handleInputChange('expection', e.target.value)}
+          rows={2}
+        />
+      </div>
+
+      <div className='mb-3'>
+        <div className='flex items-center'>
+          <label className='text-red-400 font-bold mr-2'>✓ 메모:</label>
+          <button
+            onClick={() => handleUpdate('memo')}
+            className='bg-slate-100 text-sm px-2 py-1 rounded hover:scale-105 hover:bg-red-200 transition-all duration-300 ease-in-out'
+          >
+            수정
+          </button>
+        </div>
+        <textarea
+          className='border p-2 w-full rounded outline-none mt-1'
+          value={details.memo}
+          onChange={(e) => handleInputChange('memo', e.target.value)}
           rows={2}
         />
       </div>

@@ -48,14 +48,14 @@ export const updateArticleMemo = async (id, memo) => {
   return await putRequest(`/memo/${id}`, { memo });
 };
 
-// 기사의 ranking을 수정하는 함수
-export const updateArticleRanking = async (id, ranking) => {
-  return await putRequest(`/ranking/${id}`, { ranking });
+// 기사의 background를 수정하는 함수
+export const updateArticleExpection = async (id, background) => {
+  return await putRequest(`/background/${id}`, { background });
 };
 
-// 기사의 mark를 수정하는 함수 (추가됨)
-export const updateArticleMark = async (id, mark) => {
-  return await putRequest(`/mark/${id}`, { mark });
+// 기사의 classification를 수정하는 함수
+export const updateArticleClassification = async (id, classification) => {
+  return await putRequest(`/classification/${id}`, { classification });
 };
 
 // 기사의 keyword를 수정하는 함수 (추가됨)
@@ -66,4 +66,9 @@ export const updateArticleKeyword = async (id, keyword) => {
 // 기사를 삭제하는 함수 (id로 삭제)
 export const deleteArticleById = async (id) => {
   return await deleteRequest(`/${id}`);
+};
+
+// Fetch detailed data for a specific article by its ID
+export const fetchArticleDetailsById = async (id) => {
+  return await getRequest(`/articleDetails/${id}`); // Assuming your API uses this endpoint
 };
