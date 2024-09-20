@@ -145,7 +145,7 @@ export default function DetailedNews({ news, onBack }) {
         <textarea
           className='border p-2 w-full rounded outline-none mt-1'
           value={details.background}
-          onChange={(e) => handleInputChange('expection', e.target.value)}
+          onChange={(e) => handleInputChange('background', e.target.value)}
           rows={2}
         />
       </div>
@@ -160,11 +160,11 @@ export default function DetailedNews({ news, onBack }) {
             수정
           </button>
         </div>
-        <textarea
+        <input
           className='border p-2 w-full rounded outline-none mt-1'
+          type='text'
           value={details.memo}
           onChange={(e) => handleInputChange('memo', e.target.value)}
-          rows={2}
         />
       </div>
     </div>
