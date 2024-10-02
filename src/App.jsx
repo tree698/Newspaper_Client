@@ -8,7 +8,7 @@ import {
   fetchArticlesByLanguageAndDate,
   searchByKeyword,
   fetchArticleById,
-  deleteArticleById,
+  deleteArticlesByIds,
 } from './service/newsApi';
 
 export default function App() {
@@ -17,7 +17,6 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // 오늘의 뉴스를 가져오는 함수
   const loadTodayNews = async () => {
     setLoading(true);
     try {
@@ -30,12 +29,10 @@ export default function App() {
     }
   };
 
-  // 처음 렌더링될 때 오늘의 뉴스를 자동으로 가져옴
   useEffect(() => {
     loadTodayNews();
   }, []);
 
-  // API 요청을 처리하는 함수
   const handleApiRequest = async (type, params) => {
     setLoading(true);
     let data;
@@ -65,9 +62,9 @@ export default function App() {
           data = await fetchArticleById(params.id);
           data = data ? [data] : [];
           break;
-        case 'deleteById':
-          await deleteArticleById(params.id);
-          alert(`ID ${params.id}가 삭제되었습니다.`);
+        case 'deleteArticles':
+          await deleteArticlesByIds(params.ids);
+          alert(`선택한 기사들이 삭제되었습니다.`);
           data = await fetchTodayNews();
           break;
         default:

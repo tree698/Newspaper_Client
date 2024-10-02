@@ -7,21 +7,28 @@ export default function Netbar({ onApiRequest }) {
   const [language, setLanguage] = useState('');
   const [keyword, setKeyword] = useState('');
   const [id, setId] = useState('');
+  const [ids, setIds] = useState('');
 
   const handleApiCall = (type) => {
-    if (type === 'deleteById') {
-      if (!window.confirm('정말로 이 기사를 삭제하시겠습니까?')) {
-        return;
-      }
-    }
-
     const params = { name, startDate, endDate, language, keyword, id };
     onApiRequest(type, params);
   };
 
+  const handleDeleteArticles = () => {
+    if (!window.confirm('정말로 이 기사들을 삭제하시겠습니까?')) {
+      return;
+    }
+    const idArray = ids.split(',').map((id) => id.trim());
+    onApiRequest('deleteArticles', { ids: idArray });
+  };
+
   const handleKeyPress = (event, type) => {
     if (event.key === 'Enter') {
-      handleApiCall(type);
+      if (type === 'deleteArticles') {
+        handleDeleteArticles();
+      } else {
+        handleApiCall(type);
+      }
     }
   };
 
@@ -74,9 +81,9 @@ export default function Netbar({ onApiRequest }) {
         </button>
         <button
           className='border border-gray-300 px-4 py-2 rounded bg-red-200 w-40 hover:bg-slate-200 transition-all duration-300 ease-in-out hover:scale-105'
-          onClick={() => handleApiCall('deleteById')}
+          onClick={handleDeleteArticles}
         >
-          ID로 기사 삭제
+          기사 삭제
         </button>
         <button
           className='border border-gray-300 px-4 py-2 rounded w-40 hover:bg-slate-200 transition-all duration-300 ease-in-out hover:scale-105'
@@ -110,7 +117,10 @@ export default function Netbar({ onApiRequest }) {
         {renderInput(endDate, setEndDate, '끝 날짜', 'date', (e) =>
           handleKeyPress(e, 'nameAndDate')
         )}
-        {renderInput(id, setId, 'ID 입력..', 'text', (e) =>
+        {renderInput(ids, setIds, 'ID 삭제 (쉼표 구분)', 'text', (e) =>
+          handleKeyPress(e, 'deleteArticles')
+        )}
+        {renderInput(id, setId, 'ID 검색..', 'text', (e) =>
           handleKeyPress(e, 'id')
         )}
         {renderInput(keyword, setKeyword, '검색어 입력..', 'text', (e) =>

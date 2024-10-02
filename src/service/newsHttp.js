@@ -40,10 +40,10 @@ export const putRequest = async (endpoint, payload) => {
   }
 };
 
-// 공통 DELETE 요청 함수
-export const deleteRequest = async (endpoint) => {
+// 공통 DELETE 요청 함수 (데이터 전달 추가)
+export const deleteRequest = async (endpoint, payload) => {
   try {
-    const response = await apiClient.delete(endpoint);
+    const response = await apiClient.delete(endpoint, { data: payload });
     return response.data;
   } catch (error) {
     handleError(error);
