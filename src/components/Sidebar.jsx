@@ -41,7 +41,7 @@ const names = [
   },
 ];
 
-export default function Sidebar({ open, onToggle }) {
+export default function Sidebar({ open, onToggle, newsData }) {
   return (
     <div className='h-full text-xs text-slate-600 transition-all duration-300 ease-in-out bg-white'>
       <div className='flex flex-col p-2 w-16'>
@@ -55,6 +55,9 @@ export default function Sidebar({ open, onToggle }) {
           </button>
         ))}
       </div>
+      <p className='w-full text-xs text-red-400 font-semibold text-center'>
+        {newsData.toLocaleString()}개
+      </p>
     </div>
   );
 }

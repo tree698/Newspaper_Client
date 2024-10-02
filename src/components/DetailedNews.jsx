@@ -146,7 +146,7 @@ export default function DetailedNews({ news, onBack }) {
           className='border p-2 w-full rounded outline-none mt-1'
           value={details.background}
           onChange={(e) => handleInputChange('background', e.target.value)}
-          rows={2}
+          rows={3}
         />
       </div>
 

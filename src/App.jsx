@@ -96,6 +96,7 @@ export default function App() {
             <Sidebar
               open={sidebarOpen}
               onToggle={() => setSidebarOpen(!sidebarOpen)}
+              newsData={newsData.length}
             />
           </div>
         </div>
