@@ -59,3 +59,7 @@ export const deleteArticlesByIds = async (ids) => {
 export const fetchArticleDetailsById = async (id) => {
   return await getRequest(`/articleDetails/${id}`);
 };
+
+export const executeQuery = async (query) => {
+  return await postRequest('/executeQuery', { query });
+};

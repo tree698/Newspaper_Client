@@ -8,10 +8,15 @@ export default function Netbar({ onApiRequest }) {
   const [keyword, setKeyword] = useState('');
   const [id, setId] = useState('');
   const [ids, setIds] = useState('');
+  const [sqlQuery, setSqlQuery] = useState('');
 
   const handleApiCall = (type) => {
     const params = { name, startDate, endDate, language, keyword, id };
     onApiRequest(type, params);
+  };
+
+  const handleSqlQuery = () => {
+    onApiRequest('executeQuery', { query: sqlQuery });
   };
 
   const handleDeleteArticles = () => {
@@ -95,7 +100,7 @@ export default function Netbar({ onApiRequest }) {
           className='border border-gray-300 px-4 py-2 rounded w-40 hover:bg-slate-200 transition-all duration-300 ease-in-out hover:scale-105'
           onClick={() => handleApiCall('keyword')}
         >
-          검색어로 검색
+          제목 검색
         </button>
         <button
           className='border border-gray-300 px-4 py-2 rounded w-40 hover:bg-slate-200 transition-all duration-300 ease-in-out hover:scale-105'
@@ -109,8 +114,14 @@ export default function Netbar({ onApiRequest }) {
         >
           언어 및 날짜로 검색
         </button>
+        <button
+          className='border border-gray-300 px-4 py-2 rounded w-40 hover:bg-slate-200 transition-all duration-300 ease-in-out hover:scale-105'
+          onClick={handleSqlQuery}
+        >
+          SQL 검색
+        </button>
       </div>
-      <div className='w-full flex justify-center gap-2'>
+      <div className='w-full flex justify-center gap-1'>
         {renderInput(startDate, setStartDate, '시작 날짜', 'date', (e) =>
           handleKeyPress(e, 'nameAndDate')
         )}
@@ -123,7 +134,7 @@ export default function Netbar({ onApiRequest }) {
         {renderInput(id, setId, 'ID 검색..', 'text', (e) =>
           handleKeyPress(e, 'id')
         )}
-        {renderInput(keyword, setKeyword, '검색어 입력..', 'text', (e) =>
+        {renderInput(keyword, setKeyword, '제목 검색어 입력..', 'text', (e) =>
           handleKeyPress(e, 'keyword')
         )}
         {renderInput(name, setName, '이름 입력..', 'text', (e) =>
@@ -131,6 +142,9 @@ export default function Netbar({ onApiRequest }) {
         )}
         {renderInput(language, setLanguage, '언어 입력..', 'text', (e) =>
           handleKeyPress(e, 'languageAndDate')
+        )}
+        {renderInput(sqlQuery, setSqlQuery, 'SQL 쿼리 입력..', 'text', (e) =>
+          handleKeyPress(e, 'executeQuery')
         )}
       </div>
     </div>

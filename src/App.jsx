@@ -9,6 +9,7 @@ import {
   searchByKeyword,
   fetchArticleById,
   deleteArticlesByIds,
+  executeQuery,
 } from './service/newsApi';
 
 export default function App() {
@@ -66,6 +67,9 @@ export default function App() {
           await deleteArticlesByIds(params.ids);
           alert(`선택한 기사들이 삭제되었습니다.`);
           data = await fetchTodayNews();
+          break;
+        case 'executeQuery':
+          data = await executeQuery(params.query);
           break;
         default:
           data = [];
