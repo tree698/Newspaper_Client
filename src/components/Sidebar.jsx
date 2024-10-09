@@ -31,6 +31,8 @@ const names = [
     name: 'wsj',
     url: `https://www.wsj.com/print-edition/${todayFormatted}/frontpage`,
   },
+  { name: 'times', url: 'https://www.thetimes.com/uk' },
+  { name: 'guard', url: 'https://www.theguardian.com/uk?INTCMP=CE_UK' },
   {
     name: 'am',
     url: `https://www.asahi.com/shimen/${todayFormatted}/?iref=pc_gnavi`,
@@ -39,16 +41,18 @@ const names = [
     name: 'an',
     url: `https://www.asahi.com/shimen/${todayFormatted}ev/?iref=pc_gnavi`,
   },
+  { name: 'lm', url: 'https://www.lemonde.fr/' },
+  { name: 'sz', url: 'https://www.sueddeutsche.de/' },
 ];
 
 export default function Sidebar({ open, onToggle, newsData }) {
   return (
     <div className='h-full text-xs text-slate-600 transition-all duration-300 ease-in-out bg-white'>
-      <div className='flex flex-col p-2 w-16'>
+      <div className='flex flex-col p-1 w-16'>
         {names.map(({ name, url }) => (
           <button
             key={name}
-            className='mb-1 p-2 bg-slate-200 rounded hover:bg-slate-500 hover:text-slate-200 w-full'
+            className='mb-1 p-1 bg-slate-200 rounded hover:bg-slate-500 hover:text-slate-200 w-full'
             onClick={() => window.open(url, '_blank')}
           >
             {name}
